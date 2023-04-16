@@ -1,6 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { Octokit } from "octokit";
 
+const branch = process.env.NODE_ENV === "production" ? "main" : "dev";
+
 const octokit = new Octokit({
   auth: process.env.GITHUB_TOKEN,
 });
@@ -32,16 +34,16 @@ const main = async ({ body }: Req, res: NextApiResponse) => {
   text = Buffer.from(text).toString("base64");
   const username = "username"; // TODO: get username from session
 
-  const { data } = await octokit.request(
+  const { data } = (await octokit.request(
     "GET /repos/{owner}/{repo}/contents/{path}",
     {
       ...githubConfigsBase,
     }
-  ) as  {
+  )) as {
     data: {
       sha: string;
-    }
-  }
+    };
+  };
 
   // update the file
   await octokit.request("PUT /repos/{owner}/{repo}/contents/{path}", {
@@ -49,6 +51,7 @@ const main = async ({ body }: Req, res: NextApiResponse) => {
     message: `Update text by ${username}`,
     content: text,
     sha: data.sha,
+    branch,
   });
 
   res.status(200).send({
