@@ -28,12 +28,12 @@ const main = async ({ body }: Req, res: NextApiResponse) => {
 
   set(textFileContent, path, text);
 
-  text = JSON.stringify(text, null, 2);
-  text = Buffer.from(text).toString("base64");
+  const newFileContent = JSON.stringify(textFileContent, null, 2);
+  const base64File = Buffer.from(newFileContent).toString("base64");
 
   const username = "username"; // TODO: get username from session
 
-  await updateTextFile({ text, username });
+  await updateTextFile({ text: base64File, username });
 
   res.status(200).send({
     success: true,

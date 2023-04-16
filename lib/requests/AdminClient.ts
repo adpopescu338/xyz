@@ -14,7 +14,13 @@ export class AdminClient extends HttpClient {
     return this.instance.post<APIResponse>(`/update-text`, { text });
   };
 
-  public updateTextByPath = (path: string, text: string) => {
+  public updateTextByPath = ({
+    path,
+    text,
+  }: {
+    path: string;
+    text: string;
+  }) => {
     return this.instance.post<APIResponse>(`/update-text-by-path`, {
       path,
       text,

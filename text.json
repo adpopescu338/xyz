@@ -1,1 +1,19 @@
-"<h1>Home page -x</h1>"
+{
+  "Home": {
+    "title": "<h1>Home page</h1>"
+  },
+  "Login": {
+    "title": "<h1>Login</h1>",
+    "form": {
+      "username": "Username",
+      "password": "Password",
+      "submit": "Login"
+    },
+    "roles": {
+      "options": {
+        "admin": "Admin",
+        "user": "User"
+      }
+    }
+  }
+}
