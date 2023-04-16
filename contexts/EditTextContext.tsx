@@ -2,6 +2,8 @@ import React, { createContext, useContext, useState } from "react";
 import { Button } from "@mui/material";
 import styled from "styled-components";
 import { EditDialog } from "@components";
+import { useMutation } from "react-query";
+import { AdminClient } from "@lib";
 
 const initialValues = {
   menuOpen: false,
@@ -83,6 +85,7 @@ const EditTextMenu = ({
   closeMenu: () => void;
 }) => {
   const [editorOpen, setEditorOpen] = useState(false);
+  const { mutate, isLoading } = useMutation(AdminClient.updateTextByPath);
 
   if (!menuOpen) return null;
   const { left, top } = getCoordinates({
@@ -109,8 +112,20 @@ const EditTextMenu = ({
         propertyName={propertyName as string}
         node={text}
         handleClose={() => setEditorOpen(false)}
-        save={() => {
-          alert("not implemented yet");
+        save={(newText) => {
+          mutate(
+            { path, text: newText },
+            {
+              onSuccess: () => {
+                setEditorOpen(false);
+                closeMenu();
+                alert("Text updated successfully");
+              },
+              onError: () => {
+                alert("There was an error updating the text");
+              },
+            }
+          );
         }}
       />
     </>
