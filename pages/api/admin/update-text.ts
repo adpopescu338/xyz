@@ -6,8 +6,8 @@ const octokit = new Octokit({
 });
 
 const githubConfigsBase = {
-  owner: "text-editor-api",
-  repo: "next.js",
+  owner: "adpopescu338",
+  repo: "xyz",
   path: "text.json",
 };
 
@@ -32,11 +32,23 @@ const main = async ({ body }: Req, res: NextApiResponse) => {
   text = Buffer.from(text).toString("base64");
   const username = "username"; // TODO: get username from session
 
+  const { data } = await octokit.request(
+    "GET /repos/{owner}/{repo}/contents/{path}",
+    {
+      ...githubConfigsBase,
+    }
+  ) as  {
+    data: {
+      sha: string;
+    }
+  }
+
   // update the file
   await octokit.request("PUT /repos/{owner}/{repo}/contents/{path}", {
     ...githubConfigsBase,
     message: `Update text by ${username}`,
     content: text,
+    sha: data.sha,
   });
 
   res.status(200).send({
