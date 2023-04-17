@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import sanitize from "sanitize-html";
+import { sanitizeHtml } from "@lib/utils";
 import { useEditTextContext } from "./EditTextContext";
 
 const Context = createContext({});
@@ -67,5 +67,5 @@ const getTextString = (subpath: string, path: string, parentObj: any) => {
     throw new Error(`Text is not a string for sub path: ${path}.${subpath}`);
   }
 
-  return sanitize(curr);
+  return sanitizeHtml(curr);
 };
