@@ -27,6 +27,7 @@
     "react-quill": "^2.0.0",
     "sanitize-html": "^2.10.0",
     "styled-components": "^5.3.9",
+    "simple-git": "^3.17.0",
     "typescript": "5.0.4"
   },
   "devDependencies": {
@@ -40,6 +41,7 @@
   "browser": {
     "fs": false,
     "path": false,
-    "os": false
+    "os": false,
+    "child_process": false
   }
 }
