@@ -1,6 +1,6 @@
 {
   "Home": {
-    "title": "<h1>Home page x</h1>"
+    "title": "<h1 class=\"ql-indent-4\">Home page x</h1>"
   },
   "Login": {
     "title": "<h1>Login</h1>",
