@@ -1,4 +1,4 @@
-import { Octokit } from "octokit";
+import { Octokit } from "@octokit/rest";
 
 const branch =
   process.env.VERCEL_GIT_COMMIT_REF ||
@@ -6,9 +6,10 @@ const branch =
 
 const githubConfigsBase = {
   owner: "adpopescu338",
-  repo: "xyz",
+  repo: process.env.VERCEL_GITHUB_REPO as string,
   path: "text.json",
-  branch,
+  ref: branch,
+  branch: branch,
 };
 
 type Args = {
@@ -31,16 +32,15 @@ export const updateTextFile = async ({ text, username }: Args) => {
     };
   };
 
+  console.log(data);
+
   // update the file
-  const res = await octokit.request(
-    "PUT /repos/{owner}/{repo}/contents/{path}",
-    {
-      ...githubConfigsBase,
-      message: `Update text by ${username}`,
-      content: text,
-      sha: data.sha,
-    }
-  );
+  const res = await octokit.repos.createOrUpdateFileContents({
+    ...githubConfigsBase,
+    message: `Update text by ${username}`,
+    content: text,
+    sha: data.sha,
+  });
 
   return res;
 };
