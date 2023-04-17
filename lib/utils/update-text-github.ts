@@ -5,8 +5,8 @@ const branch =
   (process.env.NODE_ENV === "production" ? "main" : "dev");
 
 const githubConfigsBase = {
-  owner: "adpopescu338",
-  repo: process.env.VERCEL_GITHUB_REPO as string,
+  owner: process.env.VERCEL_GIT_REPO_OWNER,
+  repo: process.env.VERCEL_GIT_REPO_SLUG as string,
   path: "text.json",
   ref: branch,
   branch: branch,
