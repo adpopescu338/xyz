@@ -5,7 +5,7 @@ import styled from "styled-components";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 const modules = {
   toolbar: [
-    [{ header: [1, 2, false] }],
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
     ["bold", "italic", "underline", "strike", "blockquote"],
     [
       { list: "ordered" },
@@ -13,10 +13,16 @@ const modules = {
       { indent: "-1" },
       { indent: "+1" },
     ],
+    [{ size: ["small", false, "large", "huge"] }],
+    [{ color: [] }, { background: [] }], // dropdown with defaults from theme
     [{ align: [] }],
     ["link"],
-    ["clean"],
   ],
+  history: {
+    // Enable with custom configurations
+    delay: 2500,
+    userOnly: true,
+  },
 };
 
 const formats = [

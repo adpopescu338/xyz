@@ -8,6 +8,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import React from "react";
 import { Button } from "@mui/material";
 import { Editor } from "./Editor";
+import { sanitizeHtml } from "@lib/utils";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -61,7 +62,7 @@ export const EditDialog = ({
         </Button>
         <Button
           onClick={() => {
-            save(editedValue.current);
+            save(sanitizeHtml(editedValue.current));
             handleClose();
           }}
           color="primary"
