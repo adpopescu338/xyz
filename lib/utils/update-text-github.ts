@@ -1,13 +1,14 @@
 import { Octokit } from "@octokit/rest";
+import { TEXT_FILE_PATH } from "@constants";
 
 const branch =
   process.env.VERCEL_GIT_COMMIT_REF ||
   (process.env.NODE_ENV === "production" ? "main" : "dev");
 
 const githubConfigsBase = {
-  owner: process.env.VERCEL_GIT_REPO_OWNER,
+  owner: process.env.VERCEL_GIT_REPO_OWNER as string,
   repo: process.env.VERCEL_GIT_REPO_SLUG as string,
-  path: "text.json",
+  path: TEXT_FILE_PATH,
   ref: branch,
   branch: branch,
 };
