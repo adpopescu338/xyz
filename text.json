@@ -1,6 +1,6 @@
 {
   "Home": {
-    "title": "<p>home</p>"
+    "title": "<h2>home</h2>"
   },
   "Login": {
     "title": "<h1>Login</h1>",
