@@ -1,0 +1,69 @@
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialActions"]
+}
+
+model UserProfile {
+  id           String  @id @default(uuid())
+  userId       String  @unique
+  user         User    @relation(fields: [userId], references: [id])
+  profileImage String?
+  name         String  @default("")
+}
+
+model TraderProfile {
+  id           String  @id @default(uuid())
+  description  String?
+  userId       String  @unique
+  user         User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  profileImage String?
+  name         String  @default("")
+}
+
+model User {
+  id                       String         @id @default(uuid())
+  email                    String         @unique
+  role                     Role
+  password                 String?
+  phone                    String?
+  resetPasswordToken       String?
+  resetPasswordTokenExpire DateTime?
+  userProfile              UserProfile?
+  traderProfile            TraderProfile?
+  emailVerified            Boolean        @default(false)
+  createdAt                DateTime       @default(now())
+  newEmail                 String?
+  resetEmailToken          String?        @unique
+  resetEmailTokenExpire    DateTime?
+
+  // for Admin only
+  permissions Permission[]
+}
+
+model Notification {
+  id     String  @id @default(uuid())
+  userId String?
+
+  createdAt DateTime @default(now())
+  url       String?
+  viewed    Boolean  @default(false)
+  active    Boolean  @default(true)
+  text      String
+
+  reviewId Int?
+}
+
+enum Role {
+  User
+  Trader
+  Admin
+}
+
+enum Permission {
+  EDIT_TEXT
+}

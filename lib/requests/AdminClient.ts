@@ -1,6 +1,5 @@
 import { HttpClient } from "./HttpClient";
 import { APIResponse } from "@lib/types";
-import { AxiosRequestConfig } from "axios";
 
 export class AdminClient extends HttpClient {
   constructor() {

@@ -1,19 +1,28 @@
 import "@styles/globals.css";
-import type { AppContext, AppProps } from "next/app";
+import type { AppProps } from "next/app";
 import { TextContext, EditTextContext } from "@contexts";
 import { QueryClient, QueryClientProvider } from "react-query";
-import "react-quill/dist/quill.core.css";
+import { captureUIErrorSetup } from "@lib/utils";
+import { useEffect } from "react";
+import { SessionProvider } from "next-auth/react";
 
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
+  useEffect(captureUIErrorSetup, []);
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <TextContext text={pageProps.text}>
-        <EditTextContext>
-          <Component {...pageProps} />
-        </EditTextContext>
-      </TextContext>
-    </QueryClientProvider>
+    <SessionProvider
+      session={pageProps.session?.data}
+      basePath={`/api/auth/next-auth`}
+    >
+      <QueryClientProvider client={queryClient}>
+        <TextContext text={pageProps.text}>
+          <EditTextContext>
+            <Component {...pageProps} />
+          </EditTextContext>
+        </TextContext>
+      </QueryClientProvider>
+    </SessionProvider>
   );
 }
