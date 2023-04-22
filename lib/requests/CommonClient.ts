@@ -1,8 +1,22 @@
 import { HttpClient } from "./HttpClient";
 import { APIResponse } from "@lib/types";
-import { ErrorPayload } from "@lib";
 
-export class CommonClient extends HttpClient {
+export type CaptureErrorPayload = {
+  error: {
+    type: string;
+    line_number: number;
+    file_name: string;
+    message: string;
+    stack?: string;
+    info?: string;
+  };
+  url: string;
+  title: string;
+  lastEvent?: string;
+  lastElement?: string;
+};
+
+export class CommonClientClass extends HttpClient {
   constructor() {
     super({
       baseURL: "/api/common/",
@@ -10,9 +24,13 @@ export class CommonClient extends HttpClient {
     });
   }
 
-  public captureError = (payload: ErrorPayload) => {
-    return this.instance.post<APIResponse>(`/capture-error`, payload);
+  public sendCapturedError = (payload: CaptureErrorPayload) => {
+    return this.instance
+      .post<APIResponse>(`/capture-error`, payload)
+      .catch((e) => {
+        console.error("Unable to send captured error to server", e);
+      });
   };
 }
 
-export const CommonClientInstance = new CommonClient();
+export const CommonClient = new CommonClientClass();

@@ -1,4 +1,5 @@
-import { ErrorResponse, Slack } from "@lib";
+import { ErrorResponse } from "../requests";
+import { postMessageToSlack, SlackIcons } from "../slack";
 
 export const onErrorMiddleware = async (err, req, res) => {
   let error = { ...err };
@@ -10,8 +11,8 @@ export const onErrorMiddleware = async (err, req, res) => {
     error = new ErrorResponse(message, 404);
   }
 
-  await Slack({
-    icon: "error",
+  await postMessageToSlack({
+    icon: SlackIcons.error,
     text: error,
     endpoint: req.url,
     extra: { method: req.method, referer: req.headers.referer },

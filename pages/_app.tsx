@@ -15,6 +15,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <SessionProvider
       session={pageProps.session?.data}
       basePath={`/api/auth/next-auth`}
+      baseUrl={process.env.NEXTAUTH_URL}
     >
       <QueryClientProvider client={queryClient}>
         <TextContext text={pageProps.text}>

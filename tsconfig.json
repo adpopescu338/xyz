@@ -24,9 +24,10 @@
       "@lib/utils": ["./lib/utils/index.ts"],
       "@lib/middlewares": ["./lib/middlewares/index.ts"],
       "@constants": ["./constants/index.ts"],
-      "@prismadb": ["./prisma/index.ts"]
+      "@prismadb": ["./prisma/index.ts"],
+      "@emails": ["./emails/index.ts"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "scripts/postbuild.ts", "scripts/post-build/getEmailTemplatesIds.mjs", "scripts/post-build/index.mjs", "scripts/getEmailTemplatesIds.mjs", "emails/template-names.mjs"],
   "exclude": ["node_modules"]
 }

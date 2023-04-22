@@ -1,19 +1,4 @@
-import { CommonClient } from "@lib";
-
-export type ErrorPayload = {
-  error: {
-    type: string;
-    line_number: number;
-    file_name: string;
-    message: string;
-    stack?: string;
-    info?: string;
-  };
-  url: string;
-  title: string;
-  lastEvent?: string;
-  lastElement?: string;
-};
+import { CommonClient, CaptureErrorPayload } from "./requests";
 
 export const captureError = (e: any, info?: string) => {
   const eObj = {
@@ -25,7 +10,7 @@ export const captureError = (e: any, info?: string) => {
     info,
   };
 
-  const payload: ErrorPayload = {
+  const payload: CaptureErrorPayload = {
     error: eObj,
     url: window.location.href,
     title: e.message,
@@ -55,7 +40,5 @@ export const captureError = (e: any, info?: string) => {
     });
   }
 
-  CommonClient.captureError(payload);
+  CommonClient.sendCapturedError(payload);
 };
-
-export default captureError;
