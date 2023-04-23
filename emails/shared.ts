@@ -12,7 +12,7 @@ export type SharedEmailArgs = {
   subject?: string;
 };
 
-type GetDynamicTemplateDataArgs = {
+type SendDynamicTemplateArgs = {
   mandatoryFields?: string[];
   dynamicTemplateData: Record<string, any>;
   to: string;
@@ -20,13 +20,13 @@ type GetDynamicTemplateDataArgs = {
   templateName: string;
 };
 
-export const sendDynamicTemplateData = async ({
+export const sendDynamicTemplate = async ({
   mandatoryFields,
   dynamicTemplateData,
   to,
   subject,
   templateName,
-}: GetDynamicTemplateDataArgs) => {
+}: SendDynamicTemplateArgs) => {
   validate(mandatoryFields, dynamicTemplateData, to);
 
   const templateId = getTemplateId(templateName);
@@ -40,7 +40,7 @@ export const sendDynamicTemplateData = async ({
 
   const data = {
     to,
-    from: "ad.popescu338@yahoo.com",
+    from: "info@weddster.co.uk",
     dynamicTemplateData: dynamicTemplateData,
     templateId: templateId,
     ...(subject && { subject }),
@@ -51,7 +51,7 @@ export const sendDynamicTemplateData = async ({
   try {
     await sgMail.send(data);
   } catch (e) {
-    console.error(e);
+    console.error( e.response?.body);
     throw new ErrorResponse("Unable to send email", 500);
   }
 };

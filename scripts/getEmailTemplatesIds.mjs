@@ -1,6 +1,6 @@
 import client from "@sendgrid/client";
 import { writeFileSync, existsSync } from "fs";
-import { templateNames } from "../emails/template-names.mjs";
+import { templateNames } from "../emails/template-names/template-names.mjs";
 import { toCamel } from "snake-camel";
 
 const queryParams = {
@@ -17,8 +17,10 @@ const request = {
 export const getEmailTemplatesIds = async () => {
   const path = "./emails/templateIds.json";
 
-  if(existsSync(path)) {
-    console.log(`File ${path} already exists. Skipping email templates ids retrieval.`);
+  if (existsSync(path)) {
+    console.log(
+      `File ${path} already exists. Skipping email templates ids retrieval.`
+    );
     return;
   }
 
@@ -64,7 +66,7 @@ const validatetemplateNames = (templatesMap) => {
 };
 
 const writeTemplateNamesTs = () => {
-  const path = "./emails/template-names.ts";
+  const path = "./emails/template-names/index.ts";
 
   console.log(`Generating "template-names.ts" file in ${path}`);
 
@@ -76,11 +78,9 @@ const writeTemplateNamesTs = () => {
     ""
   );
 
-  const wrapper = `
-    export enum TemplateNames {
+  const wrapper = `export enum TemplateNames {
       ${templateNamesTs}
-    }
-  `;
+}`;
 
   writeFileSync(path, wrapper);
 

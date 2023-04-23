@@ -7,12 +7,17 @@ export const addSessionMiddleware = async (
   res: NextApiResponse,
   next
 ) => {
-  console.log("getting session!!!!!!!");
-  const session = await getSession({ req });
+  let session;
 
-  if (session?.user) {
+  try {
+    session = await getSession({ req });
+  } catch (e) {
+    // ignore
+  }
+
+  if (session) {
     Object.defineProperty(req, "session", { value: session, enumerable: true });
   }
-  console.log("calling next!!!!");
+
   next();
 };

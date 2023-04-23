@@ -2,7 +2,7 @@ import { useText } from "@contexts";
 import * as yup from "yup";
 import { Input, Form, Submit } from "./form";
 import Grid from "@mui/material/Grid";
-import { Button, Typography } from "@mui/material";
+import {  Typography } from "@mui/material";
 
 const Schema = yup.object().shape({
   email: yup.string().email().required(),
@@ -10,7 +10,7 @@ const Schema = yup.object().shape({
 });
 
 export const Signin = () => {
-  const { tProps, t } = useText("Signin");
+  const { tProps } = useText("Signin");
 
   return (
     <Grid container xs={12} gap={4}>

@@ -1,5 +1,4 @@
 import pino from 'pino';
-import expressPino from 'express-pino-logger';
 
 export const logger = pino({
   level: 'info',
@@ -7,7 +6,6 @@ export const logger = pino({
     target: 'pino-pretty',
   },
 });
-const expressLogger = expressPino({ logger });
 
 export function loggerMiddleware(...args) {
   if (
@@ -15,7 +13,7 @@ export function loggerMiddleware(...args) {
     process.env.LOG_LEVEL === 'debug' &&
     process.env.LOG_API_CALLS === 'true'
   ) {
-    return expressLogger(...args);
+    console.log(...args)
   }
   const next = args[2];
   next();

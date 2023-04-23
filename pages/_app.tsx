@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { captureUIErrorSetup } from "@lib/utils";
 import { useEffect } from "react";
 import { SessionProvider } from "next-auth/react";
+import Head from "next/head";
 
 const queryClient = new QueryClient();
 
@@ -12,18 +13,28 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(captureUIErrorSetup, []);
 
   return (
-    <SessionProvider
-      session={pageProps.session?.data}
-      basePath={`/api/auth/next-auth`}
-      baseUrl={process.env.NEXTAUTH_URL}
-    >
-      <QueryClientProvider client={queryClient}>
-        <TextContext text={pageProps.text}>
-          <EditTextContext>
-            <Component {...pageProps} />
-          </EditTextContext>
-        </TextContext>
-      </QueryClientProvider>
-    </SessionProvider>
+    <>
+      <Head>
+        <meta
+          name="description"
+          content="Website description goes here."
+          key="desc"
+        />
+      </Head>
+
+      <SessionProvider
+        session={pageProps.session?.data}
+        basePath={`/api/auth/next-auth`}
+        baseUrl={process.env.NEXTAUTH_URL}
+      >
+        <QueryClientProvider client={queryClient}>
+          <TextContext text={pageProps.text}>
+            <EditTextContext>
+              <Component {...pageProps} />
+            </EditTextContext>
+          </TextContext>
+        </QueryClientProvider>
+      </SessionProvider>
+    </>
   );
 }

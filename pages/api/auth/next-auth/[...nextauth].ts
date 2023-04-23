@@ -47,9 +47,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       async session({ session, token }) {
         // @ts-expect-error
         session.user.id = token.id;
-        if (!token.email?.startsWith("no-email")) {
-          session.user.email = token.email;
-        }
+
+        session.user.email = token.email;
+
         session.user.name = token.name;
         // @ts-expect-error
         session.user.role = token.role;

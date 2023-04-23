@@ -1,7 +1,7 @@
 import { HttpClient } from "./HttpClient";
 import { APIResponse } from "@lib/types";
 
-export class AdminClientClass extends HttpClient {
+class AdminClientClass extends HttpClient {
   constructor() {
     super({
       baseURL: "/api/admin/",

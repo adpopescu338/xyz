@@ -3,8 +3,8 @@ import { postMessageToSlack, SlackIcons } from "../slack";
 
 export const onErrorMiddleware = async (err, req, res) => {
   let error = { ...err };
-  error.message = err.message;
 
+  console.log("onErrorMiddleware", { err, error });
   // Prisma Record not found
   if (err.code === "P2025") {
     const message = err.meta.cause;
@@ -19,7 +19,7 @@ export const onErrorMiddleware = async (err, req, res) => {
   });
 
   const message =
-    error instanceof ErrorResponse ? error.message : "An error occurred";
+    err instanceof ErrorResponse ? err.message : "An error occurred";
 
   res.status(error.statusCode || 500).json({
     success: false,

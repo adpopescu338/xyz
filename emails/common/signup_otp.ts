@@ -1,4 +1,4 @@
-import { SharedEmailArgs, sendDynamicTemplateData } from "../shared";
+import { SharedEmailArgs, sendDynamicTemplate } from "../shared";
 import { TemplateNames } from "../template-names";
 
 type TemplateArgs = SharedEmailArgs & {
@@ -11,7 +11,7 @@ const mandatoryFields: Array<keyof TemplateArgs> = ["otp"];
 /**
  * @description Send email when a user signs up with OTP
  */
-export const welcome_otp = async (args: TemplateArgs) => {
+export const signup_otp = async (args: TemplateArgs) => {
   const { otp, firstName } = args;
 
   const dynamicTemplateData = {
@@ -19,7 +19,7 @@ export const welcome_otp = async (args: TemplateArgs) => {
     firstName,
   };
 
-  return sendDynamicTemplateData({
+  await sendDynamicTemplate({
     dynamicTemplateData,
     templateName: TemplateNames.SignupOtp,
     mandatoryFields,

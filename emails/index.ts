@@ -1,2 +1,2 @@
-export * from "./template-names.mjs";
+export * from "./template-names";
 export * from "./common";

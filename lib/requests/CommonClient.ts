@@ -16,7 +16,7 @@ export type CaptureErrorPayload = {
   lastElement?: string;
 };
 
-export class CommonClientClass extends HttpClient {
+class CommonClientClass extends HttpClient {
   constructor() {
     super({
       baseURL: "/api/common/",

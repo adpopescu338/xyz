@@ -36,3 +36,4 @@ yarn-error.log*
 next-env.d.ts
 
 /emails/templateIds.json
+/emails/template-names/index.ts
