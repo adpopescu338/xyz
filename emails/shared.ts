@@ -1,6 +1,5 @@
 import { ErrorResponse } from "../lib";
 import sgMail from "@sendgrid/mail";
-import { TemplateNames } from "./template-names.mjs";
 // @ts-expect-error // this is a generated file
 import templatesIds from "./templateIds.json";
 

@@ -1,8 +1,8 @@
 import { useText } from "@contexts";
 import * as yup from "yup";
-import { Input, Form } from "./form";
+import { Input, Form, Submit } from "./form";
 import Grid from "@mui/material/Grid";
-import { Button, Typography} from "@mui/material";
+import { Button, Typography } from "@mui/material";
 
 const Schema = yup.object().shape({
   email: yup.string().email().required(),
@@ -32,7 +32,7 @@ export const Signin = () => {
           />
 
           <Grid item xs={12}>
-            <Button variant="contained" type="submit" {...tProps("submit")} />
+            <Submit {...tProps("submit")} />
           </Grid>
         </Grid>
       </Form>
