@@ -1,19 +1,27 @@
 {
   "Home": {
-    "title": ""
+    "title": "Login"
   },
-  "Login": {
-    "title": "<h1>Login</h1>",
-    "form": {
-      "username": "Username",
-      "password": "Password",
-      "submit": "Login"
-    },
-    "roles": {
-      "options": {
-        "admin": "Admin",
-        "user": "User"
+  "Signin": {
+    "title": "Sign in",
+    "inputs": {
+      "email": {
+        "label": "Email label",
+        "placeholder": "johndoe@mail.com placeholder",
+        "validation": {
+          "email": "Email is invalid",
+          "required": "Email is required"
+        }
+      },
+      "password": {
+        "label": "Password label",
+        "placeholder": "******** placeholder",
+        "validation": {
+          "required": "Password is required",
+          "length": "Password must be at least 6 characters long"
+        }
       }
-    }
+    },
+    "submit": "Submit"
   }
 }

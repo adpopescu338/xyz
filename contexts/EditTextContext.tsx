@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useId,
+} from "react";
 import { Button } from "@mui/material";
 import styled from "styled-components";
 import { EditDialog } from "@components";
@@ -86,6 +92,22 @@ const EditTextMenu = ({
 }) => {
   const [editorOpen, setEditorOpen] = useState(false);
   const { mutate, isLoading } = useMutation(AdminClient.updateTextByPath);
+  const id = useId();
+  const id2 = useId();
+
+  useEffect(() => {
+    const listener = (e: any) => {
+      const p = e.composedPath();
+
+      if (!p.includes(document.getElementById(id))) {
+        closeMenu();
+      }
+    };
+
+    window.addEventListener("click", listener);
+
+    return () => window.removeEventListener("click", listener);
+  }, []);
 
   if (!menuOpen) return null;
   const { left, top } = getCoordinates({
@@ -98,7 +120,7 @@ const EditTextMenu = ({
 
   return (
     <>
-      <EditTextMenuStyled left={left} top={top}>
+      <EditTextMenuStyled left={left} top={top} id={id}>
         <Button fullWidth onClick={() => setEditorOpen(true)}>
           Edit Text
         </Button>
@@ -108,6 +130,7 @@ const EditTextMenu = ({
       </EditTextMenuStyled>
 
       <EditDialog
+        id={id2}
         open={editorOpen}
         propertyName={propertyName as string}
         node={text}

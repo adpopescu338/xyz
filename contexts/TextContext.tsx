@@ -32,17 +32,17 @@ export const useText = (path: string) => {
   return {
     t: (subpath: string) => getTextString(subpath, path, current),
     tProps: (subpath: string) => ({
-      dangerouslySetInnerHTML: {
-        __html: getTextString(subpath, path, current),
-      },
+      children: getTextString(subpath, path, current),
       onContextMenu: (e: any) => {
         e.preventDefault();
+        const pos = e.target.getBoundingClientRect()
+
         setEditTextValues({
           menuOpen: true,
           path: `${path}.${subpath}`,
           text: getTextString(subpath, path, current),
-          targetClientX: e.clientX,
-          targetClientY: e.clientY,
+          targetClientX: pos.left,
+          targetClientY: pos.top,
           targetWidth: e.target.offsetWidth,
         });
       },

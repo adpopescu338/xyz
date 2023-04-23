@@ -25,6 +25,7 @@ type EditDialogProps = {
   node: string;
   propertyName: string;
   save: (value: string) => void;
+  id?: string;
 };
 
 export const EditDialog = ({
@@ -33,11 +34,13 @@ export const EditDialog = ({
   node,
   propertyName,
   save,
+  id,
 }: EditDialogProps) => {
   const editedValue = useRef(node);
 
   return (
     <Dialog
+      id={id}
       open={open}
       TransitionComponent={Transition}
       keepMounted
