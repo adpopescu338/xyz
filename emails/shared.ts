@@ -1,6 +1,6 @@
 import { ErrorResponse } from "../lib";
 import sgMail from "@sendgrid/mail";
-// @ts-expect-error // this is a generated file
+// this is generated at build time
 import templatesIds from "./templateIds.json";
 
 export const getTemplateId = (templateName: string) => {
