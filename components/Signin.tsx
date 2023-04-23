@@ -2,7 +2,7 @@ import { useText } from "@contexts";
 import * as yup from "yup";
 import { Input, Form } from "./form";
 import Grid from "@mui/material/Grid";
-import { Button, Typography } from "@mui/material";
+import { Button, Typography} from "@mui/material";
 
 const Schema = yup.object().shape({
   email: yup.string().email().required(),

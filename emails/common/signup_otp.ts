@@ -1,5 +1,5 @@
 import { SharedEmailArgs, sendDynamicTemplateData } from "../shared";
-import { TemplateNames } from "../template-names.mjs";
+import { TemplateNames } from "../template-names";
 
 type TemplateArgs = SharedEmailArgs & {
   firstName?: string;
