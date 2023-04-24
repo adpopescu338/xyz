@@ -1,4 +1,4 @@
-import { getText } from "@lib";
+import text from "text";
 
 export const getStaticPropsText = (fn: any) => {
   if (typeof fn === "function") {
@@ -9,7 +9,7 @@ export const getStaticPropsText = (fn: any) => {
         ...pageProps,
         props: {
           ...pageProps?.props,
-          text: getText(),
+          text,
         },
       };
     };
@@ -17,7 +17,7 @@ export const getStaticPropsText = (fn: any) => {
 
   return Promise.resolve({
     props: {
-      text: getText(),
+      text,
     },
   });
 };

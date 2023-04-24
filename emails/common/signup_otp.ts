@@ -3,7 +3,7 @@ import { TemplateNames } from "../template-names";
 
 type TemplateArgs = SharedEmailArgs & {
   firstName?: string;
-  otp: string;
+  otp: number;
 };
 
 const mandatoryFields: Array<keyof TemplateArgs> = ["otp"];

@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import { Input, Form, Submit } from "./form";
 import * as yup from "yup";
-import { useText } from "@contexts";
+import { useText, useAlert } from "@contexts";
 import { Button, Grid } from "@mui/material";
 import { Typography } from "@mui/material";
 import { useMutation } from "react-query";
@@ -63,12 +63,16 @@ const Schema = yup.object().shape({
 const Email = ({ onSuccess }) => {
   const { tProps } = useText("Signup");
   const { mutate, isLoading } = useMutation(AuthClient.signup);
+  const setAlert = useAlert();
 
   return (
     <Form
       onSubmit={(val) => {
         mutate(val, {
           onSuccess,
+          onError: (err: any) => {
+            setAlert(err.response.data.error, "error");
+          },
         });
       }}
       defaultValues={defaultValues}

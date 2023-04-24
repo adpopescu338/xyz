@@ -1,4 +1,4 @@
-import { ErrorResponse } from "../lib";
+import { ErrorResponse, SlackIcons, postMessageToSlack } from "../lib";
 import sgMail from "@sendgrid/mail";
 // this is generated at build time
 import templatesIds from "./templateIds.json";
@@ -32,9 +32,14 @@ export const sendDynamicTemplate = async ({
   const templateId = getTemplateId(templateName);
 
   if (!templateId) {
-    console.error(
-      `Unable to send email: Missing template id for template ${templateName}`
-    );
+    const errorMessage = `Unable to send email: Missing template id for template ${templateName}`;
+    console.error(errorMessage);
+
+    await postMessageToSlack({
+      icon: SlackIcons.error,
+      text: errorMessage,
+    });
+
     throw new ErrorResponse("Unable to send email", 500);
   }
 
@@ -51,7 +56,7 @@ export const sendDynamicTemplate = async ({
   try {
     await sgMail.send(data);
   } catch (e) {
-    console.error( e.response?.body);
+    console.error(e.response?.body);
     throw new ErrorResponse("Unable to send email", 500);
   }
 };

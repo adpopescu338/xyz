@@ -1,6 +1,6 @@
 import "@styles/globals.css";
 import type { AppProps } from "next/app";
-import { TextContext, EditTextContext } from "@contexts";
+import { TextContext, EditTextContext, AlertContext } from "@contexts";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { captureUIErrorSetup } from "@lib/utils";
 import { useEffect } from "react";
@@ -30,7 +30,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <QueryClientProvider client={queryClient}>
           <TextContext text={pageProps.text}>
             <EditTextContext>
-              <Component {...pageProps} />
+              <AlertContext>
+                <Component {...pageProps} />
+              </AlertContext>
             </EditTextContext>
           </TextContext>
         </QueryClientProvider>

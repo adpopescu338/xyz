@@ -73,7 +73,7 @@ const EditTextMenuStyled = styled.div<EditTextMenuStyledProps>`
   border-radius: 5px;
   left: ${(props: EditTextMenuStyledProps) => props.left}px;
   top: ${(props: EditTextMenuStyledProps) => props.top}px;
-  z-index: 999;
+  z-index: 99999999;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
