@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { updateTextFile } from "@lib/utils";
+import { admin } from "@lib/middlewares";
+import { Permission } from "@prisma/client";
 
 type Req = NextApiRequest & {
   body: {
@@ -8,8 +10,6 @@ type Req = NextApiRequest & {
 };
 
 const main = async ({ body }: Req, res: NextApiResponse) => {
-  // TODO: perform permission checks here
-
   // get text from request
   let text = body?.text;
 
@@ -17,8 +17,6 @@ const main = async ({ body }: Req, res: NextApiResponse) => {
     res.status(400).send("Missing text");
   }
 
-  text = JSON.stringify(text, null, 2);
-  text = Buffer.from(text).toString("base64");
   const username = "username"; // TODO: get username from session
 
   await updateTextFile({ text, username });
@@ -28,4 +26,6 @@ const main = async ({ body }: Req, res: NextApiResponse) => {
   });
 };
 
-export default main;
+const handler = admin(Permission.EDIT_TEXT).post(main);
+
+export default handler;

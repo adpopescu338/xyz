@@ -1561,6 +1561,13 @@ dot-case@^3.0.4:
     no-case "^3.0.4"
     tslib "^2.0.3"
 
+easy-text-update@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/easy-text-update/-/easy-text-update-1.0.1.tgz#5937e8ba1ef0c60a37745fcc0bbf064c7e55d205"
+  integrity sha512-G/iIYZBtAyDPdCo169o69Akx6dsPThV2q7b4aBd/XnC6sm0x3T+GDWvyjqVW3DIewcRaIisllV+978pLE0URtA==
+  dependencies:
+    tslib "^2.5.0"
+
 emoji-regex@^9.2.2:
   version "9.2.2"
   resolved "https://registry.yarnpkg.com/emoji-regex/-/emoji-regex-9.2.2.tgz#840c8803b0d8047f4ff0cf963176b32d4ef3ed72"

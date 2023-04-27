@@ -1,6 +1,7 @@
 import { Octokit } from "@octokit/rest";
 import { TEXT_FILE_PATH } from "@constants";
 import simpleGit from "simple-git";
+import { writeFileSync } from "fs";
 
 const githubConfigsBase = async () => {
   const branch = await getBranch();
@@ -15,15 +16,24 @@ const githubConfigsBase = async () => {
 };
 
 type Args = {
-  text: string; // base64 encoded
+  text: Record<string, any>;
   username: string;
 };
-export const updateTextFile = async ({ text, username }: Args) => {
+export const updateTextFile = async ({
+  text,
+  username,
+}: Args): Promise<void> => {
   const octokit = new Octokit({
     auth: process.env.GITHUB_TOKEN,
   });
 
   const gitConfigs = await githubConfigsBase();
+
+  if (!process.env.VERCEL) {
+    // write the file locally
+    writeFileSync(TEXT_FILE_PATH, JSON.stringify(text, null, 2), "utf8");
+    return;
+  }
 
   const { data } = (await octokit.request(
     "GET /repos/{owner}/{repo}/contents/{path}",
@@ -34,18 +44,18 @@ export const updateTextFile = async ({ text, username }: Args) => {
     };
   };
 
-  // update the file
-  const res = await octokit.repos.createOrUpdateFileContents({
+  let textString = JSON.stringify(text, null, 2);
+  textString = Buffer.from(textString).toString("base64");
+
+  // update the file in github
+  await octokit.repos.createOrUpdateFileContents({
     ...gitConfigs,
     message: `Update text by ${username}`,
-    content: text,
+    content: textString,
     sha: data.sha,
   });
 
-  // pull the changes if local
-  await stashAndPullAndPop(gitConfigs.branch);
-
-  return res;
+  return;
 };
 
 const getBranch = async () => {
@@ -59,20 +69,4 @@ const getBranch = async () => {
   const branch = await git.branch();
 
   return branch.current;
-};
-
-const stashAndPullAndPop = async (branch?: string) => {
-  if (process.env.VERCEL) {
-    // no need to do this on vercel
-    return;
-  }
-  // stash, pull, pop to update local
-  const git = simpleGit();
-
-  await git.stash();
-  console.log("stashed!!!!");
-  await git.pull("origin", branch);
-  console.log("pulled!!!!");
-  await git.stash(["pop"]);
-  console.log("popped!!!!");
 };

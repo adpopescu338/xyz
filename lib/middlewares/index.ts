@@ -11,14 +11,14 @@ const errorHandler = { onError: onErrorMiddleware };
 export const common = () =>
   nc(errorHandler).use(cors()).use(loggerMiddleware).use(addSessionMiddleware);
 
-export const authed = (roles: Role | Role[]) =>
+export const authed = (roles?: Role | Role[]) =>
   nc(errorHandler)
     .use(cors())
     .use(loggerMiddleware)
     .use(addSessionMiddleware)
     .use(authMiddleware(Array.isArray(roles) ? roles : [roles]));
 
-export const admin = (permissions: Permission | Permission[]) =>
+export const admin = (permissions?: Permission | Permission[]) =>
   nc(errorHandler)
     .use(cors())
     .use(loggerMiddleware)

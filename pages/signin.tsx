@@ -1,4 +1,3 @@
-import { getStaticPropsText } from "@lib";
 import { Signin, Page } from "@components";
 
 export default function Home() {
@@ -8,5 +7,3 @@ export default function Home() {
     </Page>
   );
 }
-
-export const getStaticProps = getStaticPropsText;

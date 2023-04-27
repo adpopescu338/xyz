@@ -1,14 +1,14 @@
-import { useText } from "@contexts";
-import { getStaticPropsText } from "@lib";
+import { Page } from "@components";
+import { UpdatableText } from "easy-text-update";
+import { Typography } from "@mui/material";
 
 export default function Home() {
-  const { tProps } = useText("Home");
-
   return (
-    <main>
-      <div {...tProps("title")} />
-    </main>
+    <Page>
+      <UpdatableText
+        path="Home.title"
+        component={<Typography variant="h4" />}
+      />
+    </Page>
   );
 }
-
-export const getStaticProps = getStaticPropsText;

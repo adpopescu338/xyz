@@ -3,7 +3,7 @@ import { useFormContext } from "react-hook-form";
 
 type Props = Partial<ButtonProps> & {
   submitting?: boolean;
-  children: string;
+  children?: string;
 };
 
 export const Submit = ({ children, submitting, ...rest }: Props) => {

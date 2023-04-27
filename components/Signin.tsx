@@ -1,21 +1,22 @@
-import { useText } from "@contexts";
 import * as yup from "yup";
 import { Input, Form, Submit } from "./form";
 import Grid from "@mui/material/Grid";
-import {  Typography } from "@mui/material";
+import { Typography } from "@mui/material";
+import { UpdatableText } from "easy-text-update";
 
 const Schema = yup.object().shape({
   email: yup.string().email().required(),
-  password: yup.string().length(6).required(),
+  password: yup.string().required(),
 });
 
 export const Signin = () => {
-  const { tProps } = useText("Signin");
-
   return (
     <Grid container xs={12} gap={4}>
       <Grid xs={12}>
-        <Typography variant="h4" {...tProps("title")} />
+        <UpdatableText
+          path="Signin.title"
+          component={<Typography variant="h4" />}
+        />
       </Grid>
       <Form
         defaultValues={{ email: "", password: "" }}
@@ -32,7 +33,9 @@ export const Signin = () => {
           />
 
           <Grid item xs={12}>
-            <Submit {...tProps("submit")} />
+            {/* <UpdatableText path="Signin.submit">
+              <Submit />
+            </UpdatableText> */}
           </Grid>
         </Grid>
       </Form>

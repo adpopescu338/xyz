@@ -2,12 +2,16 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import { Input, Form, Submit } from "./form";
 import * as yup from "yup";
-import { useText, useAlert } from "@contexts";
+import { useAlert } from "@contexts";
 import { Button, Grid } from "@mui/material";
 import { Typography } from "@mui/material";
 import { useMutation } from "react-query";
 import { Role } from "@prisma/client";
 import { AuthClient } from "@lib";
+import {
+  UpdatableText,
+  useUpdatableTextContainer,
+} from "easy-text-update";
 
 const OTPInput: any = dynamic(() => import("otp-input-react"), { ssr: false });
 
@@ -20,11 +24,11 @@ export type SignupFormValues = typeof defaultValues;
 
 export const Signup = () => {
   const [step, setStep] = useState(0);
-  const { tProps } = useText("Signup");
+  const { getProps } = useUpdatableTextContainer("Signup");
   return (
     <Grid container xs={12} gap={4}>
       <Grid xs={12}>
-        <Typography variant="h4" {...tProps("title")} />
+        <Typography variant="h4" {...getProps("title")} />
       </Grid>
 
       {step === 0 && <Email onSuccess={() => setStep(1)} />}
@@ -35,7 +39,7 @@ export const Signup = () => {
 
 const OTP = ({ goBack }) => {
   const [otp, setOtp] = useState("");
-  const { tProps } = useText("Signup");
+  const { getProps } = useUpdatableTextContainer("Signup");
 
   return (
     <Grid container xs={12} gap={4}>
@@ -50,7 +54,7 @@ const OTP = ({ goBack }) => {
       </Grid>
 
       <Grid item xs={12}>
-        <Button variant="contained" onClick={goBack} {...tProps("back")} />
+        <Button variant="contained" onClick={goBack} {...getProps("back")} />
       </Grid>
     </Grid>
   );
@@ -61,7 +65,7 @@ const Schema = yup.object().shape({
 });
 
 const Email = ({ onSuccess }) => {
-  const { tProps } = useText("Signup");
+  const { getProps } = useUpdatableTextContainer("Signup");
   const { mutate, isLoading } = useMutation(AuthClient.signup);
   const setAlert = useAlert();
 
@@ -82,7 +86,7 @@ const Email = ({ onSuccess }) => {
         <Input name="email" tPath="Signup.inputs.email" />
 
         <Grid item xs={12}>
-          <Submit {...tProps("submit")} submitting={isLoading} />
+          <Submit {...getProps("submit")} submitting={isLoading} />
         </Grid>
       </Grid>
     </Form>

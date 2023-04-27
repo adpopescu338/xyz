@@ -20,9 +20,9 @@ export const captureError = (e: any, info?: string) => {
     // @ts-expect-error
     payload.lastEvent = window.lastEvent.type;
     // @ts-expect-error
-    payload.lastElement = window.lastEvent.target.tagName;
+    payload.lastElement = window.lastEvent?.target?.tagName;
     // @ts-expect-error
-    window.lastEvent.target?.getAttributeNames()?.forEach((att) => {
+    window.lastEvent.target?.getAttributeNames?.()?.forEach((att) => {
       // @ts-expect-error
       let elementAttribute = window.lastEvent.target.getAttribute(att);
       if (att === "style") {

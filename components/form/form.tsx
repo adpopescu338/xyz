@@ -1,9 +1,4 @@
-import {
-  useForm,
-  UseFormReturn,
-  FormProvider,
-  useFormContext,
-} from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import styled from "styled-components";
 
@@ -20,10 +15,8 @@ export const Form = ({
   const hookForm = useForm({
     defaultValues,
     mode: "all",
-    ...(validationSchema && { resolver: yupResolver(validationSchema) })
+    ...(validationSchema && { resolver: yupResolver(validationSchema) }),
   });
-
-  console.log(hookForm.formState.errors);
 
   return (
     <FormProvider {...hookForm}>

@@ -1,6 +1,6 @@
 import Snackbar from "@mui/material/Snackbar";
 import { createContext, useContext, useState } from "react";
-import { useText } from "./TextContext";
+import { UpdatableText } from "easy-text-update";
 
 const initialState = {
   open: false,
@@ -14,7 +14,6 @@ const Context = createContext(
 
 export const AlertContext = ({ children }) => {
   const [state, setState] = useState(initialState);
-  const { tProps } = useText("Errors");
 
   const handleClose = () => {
     setState(initialState);
@@ -24,23 +23,22 @@ export const AlertContext = ({ children }) => {
     setState({ open: true, message, severity });
   };
 
-  const editTextProps: any =
-    state.severity === "error" ? { ...tProps(state.message) } : undefined;
-
-  const message =
-    state.severity === "error" ? editTextProps.children : state.message;
-
   return (
     <Context.Provider value={setAlert}>
       {children}
-      <Snackbar
-        open={state.open}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        message={message}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        {...{ ...editTextProps, children: undefined }}
-      />
+      {state.open && (
+        <UpdatableText path={`Errors.${state.message}`}>
+          {(message) => (
+            <Snackbar
+              open
+              autoHideDuration={6000}
+              onClose={handleClose}
+              message={message}
+              anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            />
+          )}
+        </UpdatableText>
+      )}
     </Context.Provider>
   );
 };

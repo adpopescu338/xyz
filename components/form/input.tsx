@@ -1,8 +1,7 @@
 import { TextField, TextFieldProps } from "@mui/material";
-import { useText } from "@contexts";
-import { FieldErrors } from "react-hook-form";
 import Grid from "@mui/material/Grid";
 import { useFormContext } from "react-hook-form";
+import { useUpdatableTextContainer } from "easy-text-update";
 
 type Props = Partial<TextFieldProps> & {
   tPath: string;
@@ -12,30 +11,30 @@ type Props = Partial<TextFieldProps> & {
 export const Input = ({ name, tPath, xs = 6, ...rest }: Props) => {
   const { register, formState } = useFormContext();
 
-  const { tProps, t } = useText(tPath);
+  const { getText, getProps } = useUpdatableTextContainer(tPath);
+
+  const error = formState.errors[name];
 
   return (
     <Grid item xs={xs}>
       <TextField
         {...register(name)}
-        error={!!formState.errors[name]}
-        label={<span {...tProps(`label`)} />}
-        placeholder={t("placeholder")}
+        error={!!error}
+        label={<span {...getProps("label")} />}
+        placeholder={getText("placeholder")}
         helperText={
-          <HelperText errors={formState.errors} name={name} tProps={tProps} />
+          error ? <span {...getProps(`validation.${error.type}`)} /> : undefined
         }
         variant={rest.variant || "outlined"}
         {...rest}
-        inputProps={{ ...tProps("placeholder"), children: undefined }} // this enabled editing the placeholder
+        inputProps={{
+          ...rest?.inputProps, // copy over any inputProps
+          ...getProps("placeholder", {
+            // this enables editing the placeholder
+            returnChildren: false,
+          }),
+        }}
       />
     </Grid>
   );
-};
-
-type HelperTextProps = { errors: FieldErrors; name: string; tProps: any };
-
-const HelperText = ({ errors, name, tProps }: HelperTextProps) => {
-  if (!errors[name]) return null;
-
-  return <span {...tProps(`validation.${errors[name]?.type}`)} />;
 };
